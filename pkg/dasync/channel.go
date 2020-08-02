@@ -67,8 +67,8 @@ func MoveChannel(s *state.State, guildID discord.GuildID, data []api.MoveChannel
 	}
 }
 
-func Channel(s *state.State, channelID discord.ChannelID) func() (*discord.Channel, error) {
-	c, err := s.Store.Channel(channelID)
+func Channel(s *state.State, id discord.ChannelID) func() (*discord.Channel, error) {
+	c, err := s.Store.Channel(id)
 	if err == nil {
 		return func() (*discord.Channel, error) {
 			return c, err
@@ -79,7 +79,7 @@ func Channel(s *state.State, channelID discord.ChannelID) func() (*discord.Chann
 	wg.Add(1)
 
 	go func() {
-		c, err = s.Channel(channelID)
+		c, err = s.Channel(id)
 		wg.Done()
 	}()
 
@@ -89,14 +89,14 @@ func Channel(s *state.State, channelID discord.ChannelID) func() (*discord.Chann
 	}
 }
 
-func ModifyChannel(s *state.State, channelID discord.ChannelID, data api.ModifyChannelData) func() error {
+func ModifyChannel(s *state.State, id discord.ChannelID, data api.ModifyChannelData) func() error {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
 	var err error
 
 	go func() {
-		err = s.ModifyChannel(channelID, data)
+		err = s.ModifyChannel(id, data)
 		wg.Done()
 	}()
 
@@ -106,14 +106,14 @@ func ModifyChannel(s *state.State, channelID discord.ChannelID, data api.ModifyC
 	}
 }
 
-func DeleteChannel(s *state.State, channelID discord.ChannelID) func() error {
+func DeleteChannel(s *state.State, id discord.ChannelID) func() error {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
 	var err error
 
 	go func() {
-		err = s.DeleteChannel(channelID)
+		err = s.DeleteChannel(id)
 		wg.Done()
 	}()
 
