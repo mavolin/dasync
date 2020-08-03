@@ -86,7 +86,7 @@ func GuildWithCount(s *state.State, id discord.GuildID) func() (*discord.Guild, 
 }
 
 // Guilds will not call the state first, as the result, depending on the type
-// of caching and the shard configuration, may differ.
+// of caching and the shard configuration, may differ from the API response.
 func Guilds(s *state.State, limit uint) func() ([]discord.Guild, error) {
 	var wg sync.WaitGroup
 	wg.Add(1)
