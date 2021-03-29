@@ -1,4 +1,4 @@
-module github.com/mavolin/dasync
+module github.com/mavolin/dasync/v2
 
 go 1.13
 
