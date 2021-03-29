@@ -3,13 +3,13 @@ package dasync
 import (
 	"sync"
 
-	"github.com/diamondburned/arikawa/api"
-	"github.com/diamondburned/arikawa/discord"
-	"github.com/mavolin/disstate/pkg/state"
+	"github.com/diamondburned/arikawa/v2/api"
+	"github.com/diamondburned/arikawa/v2/discord"
+	"github.com/mavolin/disstate/v3/pkg/state"
 )
 
 func Channels(s *state.State, guildID discord.GuildID) func() ([]discord.Channel, error) {
-	c, err := s.Store.Channels(guildID)
+	c, err := s.Cabinet.Channels(guildID)
 	if err == nil {
 		return func() ([]discord.Channel, error) {
 			return c, err
@@ -68,7 +68,7 @@ func MoveChannel(s *state.State, guildID discord.GuildID, data []api.MoveChannel
 }
 
 func Channel(s *state.State, id discord.ChannelID) func() (*discord.Channel, error) {
-	c, err := s.Store.Channel(id)
+	c, err := s.Cabinet.Channel(id)
 	if err == nil {
 		return func() (*discord.Channel, error) {
 			return c, err

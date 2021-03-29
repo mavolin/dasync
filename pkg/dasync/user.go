@@ -3,9 +3,9 @@ package dasync
 import (
 	"sync"
 
-	"github.com/diamondburned/arikawa/api"
-	"github.com/diamondburned/arikawa/discord"
-	"github.com/mavolin/disstate/pkg/state"
+	"github.com/diamondburned/arikawa/v2/api"
+	"github.com/diamondburned/arikawa/v2/discord"
+	"github.com/mavolin/disstate/v3/pkg/state"
 )
 
 func User(s *state.State, id discord.UserID) func() (*discord.User, error) {
@@ -27,7 +27,7 @@ func User(s *state.State, id discord.UserID) func() (*discord.User, error) {
 }
 
 func Me(s *state.State) func() (*discord.User, error) {
-	me, err := s.Store.Me()
+	me, err := s.Cabinet.Me()
 	if err == nil {
 		return func() (*discord.User, error) {
 			return me, err

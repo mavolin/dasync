@@ -3,9 +3,9 @@ package dasync
 import (
 	"sync"
 
-	"github.com/diamondburned/arikawa/api"
-	"github.com/diamondburned/arikawa/discord"
-	"github.com/mavolin/disstate/pkg/state"
+	"github.com/diamondburned/arikawa/v2/api"
+	"github.com/diamondburned/arikawa/v2/discord"
+	"github.com/mavolin/disstate/v3/pkg/state"
 )
 
 func AddRole(s *state.State, guildID discord.GuildID, userID discord.UserID, roleID discord.RoleID) func() error {
@@ -43,7 +43,7 @@ func RemoveRole(s *state.State, guildID discord.GuildID, userID discord.UserID, 
 }
 
 func Roles(s *state.State, guildID discord.GuildID) func() ([]discord.Role, error) {
-	r, err := s.Store.Roles(guildID)
+	r, err := s.Cabinet.Roles(guildID)
 	if err == nil {
 		return func() ([]discord.Role, error) {
 			return r, err

@@ -3,10 +3,10 @@ package dasync
 import (
 	"sync"
 
-	"github.com/diamondburned/arikawa/api"
-	"github.com/diamondburned/arikawa/discord"
-	"github.com/diamondburned/arikawa/webhook"
-	"github.com/mavolin/disstate/pkg/state"
+	"github.com/diamondburned/arikawa/v2/api"
+	"github.com/diamondburned/arikawa/v2/api/webhook"
+	"github.com/diamondburned/arikawa/v2/discord"
+	"github.com/mavolin/disstate/v3/pkg/state"
 )
 
 func CreateWebhook(s *state.State, channelID discord.ChannelID, data api.CreateWebhookData) func() (*discord.Webhook, error) {
@@ -89,7 +89,7 @@ func WebhookWithToken(id discord.WebhookID, token string) func() (*discord.Webho
 	var err error
 
 	go func() {
-		w, err = webhook.Get(id, token)
+		w, err = webhook.New(id, token).Get()
 		wg.Done()
 	}()
 
@@ -125,7 +125,7 @@ func ModifyWebhookWithToken(id discord.WebhookID, token string, data api.ModifyW
 	var err error
 
 	go func() {
-		w, err = webhook.Modify(id, token, data)
+		w, err = webhook.New(id, token).Modify(data)
 		wg.Done()
 	}()
 
@@ -159,7 +159,7 @@ func DeleteWebhookWithToken(id discord.WebhookID, token string) func() error {
 	var err error
 
 	go func() {
-		err = webhook.Delete(id, token)
+		err = webhook.New(id, token).Delete()
 		wg.Done()
 	}()
 
@@ -169,14 +169,14 @@ func DeleteWebhookWithToken(id discord.WebhookID, token string) func() error {
 	}
 }
 
-func Execute(id discord.WebhookID, token string, data api.ExecuteWebhookData) func() error {
+func Execute(id discord.WebhookID, token string, data webhook.ExecuteData) func() error {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
 	var err error
 
 	go func() {
-		err = webhook.Execute(id, token, data)
+		err = webhook.New(id, token).Execute(data)
 		wg.Done()
 	}()
 
@@ -186,7 +186,7 @@ func Execute(id discord.WebhookID, token string, data api.ExecuteWebhookData) fu
 	}
 }
 
-func ExecuteAndWait(id discord.WebhookID, token string, data api.ExecuteWebhookData) func() (*discord.Message, error) {
+func ExecuteAndWait(id discord.WebhookID, token string, data webhook.ExecuteData) func() (*discord.Message, error) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
@@ -194,7 +194,7 @@ func ExecuteAndWait(id discord.WebhookID, token string, data api.ExecuteWebhookD
 	var err error
 
 	go func() {
-		m, err = webhook.ExecuteAndWait(id, token, data)
+		m, err = webhook.New(id, token).ExecuteAndWait(data)
 		wg.Done()
 	}()
 

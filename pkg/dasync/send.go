@@ -3,9 +3,9 @@ package dasync
 import (
 	"sync"
 
-	"github.com/diamondburned/arikawa/api"
-	"github.com/diamondburned/arikawa/discord"
-	"github.com/mavolin/disstate/pkg/state"
+	"github.com/diamondburned/arikawa/v2/api"
+	"github.com/diamondburned/arikawa/v2/discord"
+	"github.com/mavolin/disstate/v3/pkg/state"
 )
 
 func SendMessageComplex(s *state.State, channelID discord.ChannelID, data api.SendMessageData) func() (*discord.Message, error) {

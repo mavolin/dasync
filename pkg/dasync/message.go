@@ -3,9 +3,9 @@ package dasync
 import (
 	"sync"
 
-	"github.com/diamondburned/arikawa/api"
-	"github.com/diamondburned/arikawa/discord"
-	"github.com/mavolin/disstate/pkg/state"
+	"github.com/diamondburned/arikawa/v2/api"
+	"github.com/diamondburned/arikawa/v2/discord"
+	"github.com/mavolin/disstate/v3/pkg/state"
 )
 
 // Messages will not call the state first, as the result, depending on the type
@@ -91,7 +91,7 @@ func MessagesAfter(
 func Message(
 	s *state.State, channelID discord.ChannelID, messageID discord.MessageID,
 ) func() (*discord.Message, error) {
-	m, err := s.Store.Message(channelID, messageID)
+	m, err := s.Cabinet.Message(channelID, messageID)
 	if err == nil {
 		return func() (*discord.Message, error) {
 			return m, err

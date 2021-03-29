@@ -3,12 +3,11 @@ package dasync
 import (
 	"sync"
 
-	"github.com/diamondburned/arikawa/api"
-	"github.com/diamondburned/arikawa/discord"
-	"github.com/mavolin/disstate/pkg/state"
+	"github.com/diamondburned/arikawa/v2/discord"
+	"github.com/mavolin/disstate/v3/pkg/state"
 )
 
-func React(s *state.State, channelID discord.ChannelID, messageID discord.MessageID, emoji api.Emoji) func() error {
+func React(s *state.State, channelID discord.ChannelID, messageID discord.MessageID, emoji discord.APIEmoji) func() error {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
@@ -25,7 +24,7 @@ func React(s *state.State, channelID discord.ChannelID, messageID discord.Messag
 	}
 }
 
-func Unreact(s *state.State, channelID discord.ChannelID, messageID discord.MessageID, emoji api.Emoji) func() error {
+func Unreact(s *state.State, channelID discord.ChannelID, messageID discord.MessageID, emoji discord.APIEmoji) func() error {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
@@ -43,7 +42,7 @@ func Unreact(s *state.State, channelID discord.ChannelID, messageID discord.Mess
 }
 
 func Reactions(
-	s *state.State, channelID discord.ChannelID, messageID discord.MessageID, emoji api.Emoji, limit uint,
+	s *state.State, channelID discord.ChannelID, messageID discord.MessageID, emoji discord.APIEmoji, limit uint,
 ) func() ([]discord.User, error) {
 	var wg sync.WaitGroup
 	wg.Add(1)
@@ -63,7 +62,7 @@ func Reactions(
 }
 
 func ReactionsBefore(
-	s *state.State, channelID discord.ChannelID, messageID discord.MessageID, before discord.UserID, emoji api.Emoji,
+	s *state.State, channelID discord.ChannelID, messageID discord.MessageID, before discord.UserID, emoji discord.APIEmoji,
 	limit uint,
 ) func() ([]discord.User, error) {
 	var wg sync.WaitGroup
@@ -84,7 +83,7 @@ func ReactionsBefore(
 }
 
 func ReactionsAfter(
-	s *state.State, channelID discord.ChannelID, messageID discord.MessageID, after discord.UserID, emoji api.Emoji,
+	s *state.State, channelID discord.ChannelID, messageID discord.MessageID, after discord.UserID, emoji discord.APIEmoji,
 	limit uint,
 ) func() ([]discord.User, error) {
 	var wg sync.WaitGroup
@@ -104,7 +103,7 @@ func ReactionsAfter(
 	}
 }
 
-func DeleteUserReaction(s *state.State, channelID discord.ChannelID, messageID discord.MessageID, userID discord.UserID, emoji api.Emoji) func() error {
+func DeleteUserReaction(s *state.State, channelID discord.ChannelID, messageID discord.MessageID, userID discord.UserID, emoji discord.APIEmoji) func() error {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
@@ -121,7 +120,7 @@ func DeleteUserReaction(s *state.State, channelID discord.ChannelID, messageID d
 	}
 }
 
-func DeleteReactions(s *state.State, channelID discord.ChannelID, messageID discord.MessageID, emoji api.Emoji) func() error {
+func DeleteReactions(s *state.State, channelID discord.ChannelID, messageID discord.MessageID, emoji discord.APIEmoji) func() error {
 	var wg sync.WaitGroup
 	wg.Add(1)
 

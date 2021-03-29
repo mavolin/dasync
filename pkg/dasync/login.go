@@ -3,8 +3,8 @@ package dasync
 import (
 	"sync"
 
-	"github.com/diamondburned/arikawa/api"
-	"github.com/mavolin/disstate/pkg/state"
+	"github.com/diamondburned/arikawa/v2/api"
+	"github.com/mavolin/disstate/v3/pkg/state"
 )
 
 func Login(s *state.State, email, password string) func() (*api.LoginResponse, error) {

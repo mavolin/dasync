@@ -3,13 +3,13 @@ package dasync
 import (
 	"sync"
 
-	"github.com/diamondburned/arikawa/api"
-	"github.com/diamondburned/arikawa/discord"
-	"github.com/mavolin/disstate/pkg/state"
+	"github.com/diamondburned/arikawa/v2/api"
+	"github.com/diamondburned/arikawa/v2/discord"
+	"github.com/mavolin/disstate/v3/pkg/state"
 )
 
 func Emojis(s *state.State, guildID discord.GuildID) func() ([]discord.Emoji, error) {
-	e, err := s.Store.Emojis(guildID)
+	e, err := s.Cabinet.Emojis(guildID)
 	if err == nil {
 		return func() ([]discord.Emoji, error) {
 			return e, err
@@ -31,7 +31,7 @@ func Emojis(s *state.State, guildID discord.GuildID) func() ([]discord.Emoji, er
 }
 
 func Emoji(s *state.State, guildID discord.GuildID, emojiID discord.EmojiID) func() (*discord.Emoji, error) {
-	e, err := s.Store.Emoji(guildID, emojiID)
+	e, err := s.Cabinet.Emoji(guildID, emojiID)
 	if err == nil {
 		return func() (*discord.Emoji, error) {
 			return e, err

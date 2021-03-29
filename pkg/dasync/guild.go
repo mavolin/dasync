@@ -4,9 +4,9 @@ import (
 	"io"
 	"sync"
 
-	"github.com/diamondburned/arikawa/api"
-	"github.com/diamondburned/arikawa/discord"
-	"github.com/mavolin/disstate/pkg/state"
+	"github.com/diamondburned/arikawa/v2/api"
+	"github.com/diamondburned/arikawa/v2/discord"
+	"github.com/mavolin/disstate/v3/pkg/state"
 )
 
 func CreateGuild(s *state.State, data api.CreateGuildData) func() (*discord.Guild, error) {
@@ -28,7 +28,7 @@ func CreateGuild(s *state.State, data api.CreateGuildData) func() (*discord.Guil
 }
 
 func Guild(s *state.State, id discord.GuildID) func() (*discord.Guild, error) {
-	g, err := s.Store.Guild(id)
+	g, err := s.Cabinet.Guild(id)
 	if err == nil {
 		return func() (*discord.Guild, error) {
 			return g, err
@@ -322,11 +322,11 @@ func GuildWidget(s *state.State, guildID discord.GuildID) func() (*discord.Guild
 
 func ModifyGuildWidget(
 	s *state.State, guildID discord.GuildID, data api.ModifyGuildWidgetData,
-) func() (*discord.GuildWidget, error) {
+) func() (*discord.GuildWidgetSettings, error) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
-	var w *discord.GuildWidget
+	var w *discord.GuildWidgetSettings
 	var err error
 
 	go func() {
@@ -334,13 +334,13 @@ func ModifyGuildWidget(
 		wg.Done()
 	}()
 
-	return func() (*discord.GuildWidget, error) {
+	return func() (*discord.GuildWidgetSettings, error) {
 		wg.Wait()
 		return w, err
 	}
 }
 
-func GuildVanityURL(s *state.State, guildID discord.GuildID) func() (*discord.Invite, error) {
+func GuildVanityInvite(s *state.State, guildID discord.GuildID) func() (*discord.Invite, error) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
@@ -348,7 +348,7 @@ func GuildVanityURL(s *state.State, guildID discord.GuildID) func() (*discord.In
 	var err error
 
 	go func() {
-		i, err = s.GuildVanityURL(guildID)
+		i, err = s.GuildVanityInvite(guildID)
 		wg.Done()
 	}()
 
@@ -358,7 +358,7 @@ func GuildVanityURL(s *state.State, guildID discord.GuildID) func() (*discord.In
 	}
 }
 
-func GuildImage(s *state.State, guildID discord.GuildID, img api.GuildImageStyle) func() (io.ReadCloser, error) {
+func GuildWidgetImage(s *state.State, guildID discord.GuildID, img api.GuildWidgetImageStyle) func() (io.ReadCloser, error) {
 	var wg sync.WaitGroup
 	wg.Add(1)
 
@@ -366,7 +366,7 @@ func GuildImage(s *state.State, guildID discord.GuildID, img api.GuildImageStyle
 	var err error
 
 	go func() {
-		rc, err = s.GuildImage(guildID, img)
+		rc, err = s.GuildWidgetImage(guildID, img)
 		wg.Done()
 	}()
 
